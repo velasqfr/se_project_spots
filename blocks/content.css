@@ -1,0 +1,3 @@
+.content {
+  padding: 0 20px; /*By adding extra padding(0 bottom and top, 20 left and right), this prevents the pictures and the cards on the side from touching the end when shrinking the page*/
+}

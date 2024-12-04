@@ -1,0 +1,62 @@
+.card__image {
+  height: 413px;
+  width: 100%;
+  object-fit: cover;
+  display: block; /*image elements are in line elements and gives a little spacng between it and surrounding elelemtnts so this will takes away that gap spacing*/
+  border-radius: 8px;
+}
+
+/* turning the parent container into a flexbox to make the 6 cards sie by side */
+.card__content {
+  display: flex;
+  /*aligns the heart icon and the name properly */
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card__like-btn {
+  background-image: url(../images/heart.svg);
+  width: 23px;
+  height: 20px;
+  padding: 0;
+  margin: 12px 0 0;
+  border-style: none;
+  background-color: transparent;
+  opacity: 0.4;
+  cursor: pointer;
+  background-size: contain;
+}
+
+.card__like-btn:hover {
+  opacity: 1;
+}
+
+.card__title {
+  font-family: Poppins, Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  color: #212121;
+  margin-top: 12px;
+  margin-bottom: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 320px;
+}
+
+@media screen and (max-width: 627px) {
+  .card__image {
+    height: 288px;
+  }
+  .card__title {
+    font-size: 16px;
+    line-height: 16px;
+    max-width: 250px;
+  }
+
+  .card__like-btn {
+    width: 20px;
+    height: 18px;
+  }
+}
