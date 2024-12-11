@@ -116,6 +116,37 @@
       <footer class="footer">
         <p class="footer__copyright">2024 &copy; Spots by Franklin Velasquez</p>
       </footer>
+      <div class="modal modal__opened">
+        <div class="modal__container">
+          <button type="submit" class="modal__close-btn"></button>
+          <!--close button was added-->
+          <h2 class="modal__title">Edit profile</h2>
+          <form name="edit-profil" class="modal__form">
+            <label for="name" class="modal__label">
+              <!--Every label that is associted with an attribute should have a "for" attribute and it should alway match the ID of the input-->
+              Name
+              <input
+                id="name"
+                type="text"
+                class="modal__input"
+                placeholder="Name"
+              /><!--the corresponding input needs to have an "id" value with the same input-->
+            </label>
+            <label for="description" class="modal__label">
+              <!--Every label that is associted with an attribute should have a "for" attribute and it should alway match the ID of the input-->
+              Name
+              <input
+                id="description"
+                type="text"
+                class="modal__input"
+                placeholder="Description yourself"
+              /><!--the corresponding input needs to have an "id" value with the same input-->
+            </label>
+            <button type="submit" class="modal__submit-btn">Save</button>
+            <!--add close button now-->
+          </form>
+        </div>
+      </div>
     </div>
     <script defer src="./scripts/index.js"></script>
     <!--you want this at the end of the body becase this script needs access of all the elements declared outside the body-->
