@@ -28,3 +28,24 @@ const initialCards = [
 ];
 
 console.log(initialCards);
+
+/* This is the class you want to use to have the edit profile button respond */
+const profileEditButton = document.querySelector(".profile__edit-btn");
+
+const editModal = document.querySelector("#edit-profile-modal");
+const editModalCloseBtn = editModal.querySelector(".modal__close-btn");
+
+/*this will pop open the edit profile container when click the button */
+function openModal() {
+  editModal.classList.add("modal_opened");
+}
+
+/*this will close the profile contatiner when clicking the x*/
+function closeModal() {
+  editModal.classList.remove("modal_opened");
+}
+
+/*function will describe what happens when the button is clicked */
+profileEditButton.addEventListener("click", openModal);
+
+editModalCloseBtn.addEventListener("click", closeModal);
