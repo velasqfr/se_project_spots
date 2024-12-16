@@ -32,11 +32,31 @@ console.log(initialCards);
 /* This is the class you want to use to have the edit profile button respond */
 const profileEditButton = document.querySelector(".profile__edit-btn");
 
+/*First step to put name in form box*/
+const profileName = document.querySelector(".profile__name");
+/*First step to put description in form box*/
+const profileDescription = document.querySelector(".profile__description");
+
 const editModal = document.querySelector("#edit-profile-modal");
+
+const editFormElement = editModal.querySelector(".modal__form");
+
 const editModalCloseBtn = editModal.querySelector(".modal__close-btn");
+/*2nd step to put name in form box*/
+const editModalNameInput = editModal.querySelector("#profile-name-input");
+/*2nd step to put description in form box*/
+const editModalDescriptionInput = editModal.querySelector(
+  "#profile-description-input"
+);
 
 /*this will pop open the edit profile container when click the button */
 function openModal() {
+  /*Last step to put name in form box*/
+  editModalNameInput.value =
+    profileName.textContent; /*assigning the value to the text content*/
+
+  /*Last step to put description in form box*/
+  editModalDescriptionInput.value = profileDescription.textContent;
   editModal.classList.add("modal_opened");
 }
 
@@ -45,7 +65,21 @@ function closeModal() {
   editModal.classList.remove("modal_opened");
 }
 
+/* We need to write a function fot the eventListener on the handleEdditFormSubmit to allow the submit behavior to work*/
+/* Anytime you pass a function to the evenListener, the even object is passed as the first arguement*/
+function handleEditFormSubmit(evt) {
+  evt.preventDefault();
+  /*earlier we set the value to the text content, now we're assigning text.content to the value*/
+  profileName.textContent = editModalNameInput.value;
+  /*now that we did it got profileName, let's do it for profileDescription*/
+  profileDescription.textContent = editModalDescriptionInput.value;
+  /*This code allows the editProfileContatiner to close once clicking submit*/
+  closeModal();
+}
+
 /*function will describe what happens when the button is clicked */
 profileEditButton.addEventListener("click", openModal);
 
 editModalCloseBtn.addEventListener("click", closeModal);
+
+editFormElement.addEventListener("submit", handleEditFormSubmit);
