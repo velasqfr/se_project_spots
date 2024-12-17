@@ -55,23 +55,6 @@ const cardsList = document.querySelector(".cards__list");
 
 /*We need to clone the card template, grab the element from inside it, and then insert the necesary date (src, alt)*/
 /*If it's going to need to insert that stuff, it's going to need to recieve that as an arguement(labeled "data" below)*/
-function getCardElement(data) {
-  console.log(data);
-  /*".content" allows you to access the document fragmenet*/
-  /*then we use query selector to grab the card element */
-  /*We then clone it and pass it "true"*/
-  const cardElement = cardTemplate.content
-    .querySelector(".card")
-    .cloneNode(true);
-
-  const cardNameEl = cardElement.querySelector(".card__title");
-  //EXERCISE: Select the image element
-
-  /*we can just use object notation: the name of the object(data) . and the name of the property (name) */
-  cardNameEl.textContent = data.name;
-
-  return cardElement;
-}
 
 //EXERCISE: Assign values to the image src and alt
 function getCardElement(data) {

@@ -25,6 +25,7 @@
   opacity: 0.4;
   cursor: pointer;
   background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .card__like-btn:hover {
@@ -58,5 +59,6 @@
   .card__like-btn {
     width: 20px;
     height: 18px;
+    background-repeat: no-repeat;
   }
 }
