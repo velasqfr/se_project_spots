@@ -77,25 +77,25 @@ function getCardElement(data) {
 function getCardElement(data) {
   console.log(data);
 
-  // Clone the card template
+  /*Clone the card template */
   const cardElement = cardTemplate.content
     .querySelector(".card")
     .cloneNode(true);
 
-  // Select the card title element
+  /* Select the card title element */
   const cardNameEl = cardElement.querySelector(".card__title");
 
-  // Select the image element
+  /* Select the image element */
   const cardImageEl = cardElement.querySelector(".card__image");
 
-  // Assign values to the image src and alt attributes
+  /* Assign values to the image src and alt attributes */
   cardImageEl.src = data.link; // Set the image source
   cardImageEl.alt = data.name; // Set the alt text for accessibility
 
-  // Assign text content to the card title
+  /*Assign text content to the card title */
   cardNameEl.textContent = data.name;
 
-  return cardElement; // Return the populated card element
+  return cardElement;
 }
 
 /*this will pop open the edit profile container when click the button */
