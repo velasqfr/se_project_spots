@@ -49,6 +49,55 @@ const editModalDescriptionInput = editModal.querySelector(
   "#profile-description-input"
 );
 
+/*DEALING WITH CARDS*/
+const cardTemplate = document.querySelector("#card-template");
+const cardsList = document.querySelector(".cards__list");
+
+/*We need to clone the card template, grab the element from inside it, and then insert the necesary date (src, alt)*/
+/*If it's going to need to insert that stuff, it's going to need to recieve that as an arguement(labeled "data" below)*/
+function getCardElement(data) {
+  console.log(data);
+  /*".content" allows you to access the document fragmenet*/
+  /*then we use query selector to grab the card element */
+  /*We then clone it and pass it "true"*/
+  const cardElement = cardTemplate.content
+    .querySelector(".card")
+    .cloneNode(true);
+
+  const cardNameEl = cardElement.querySelector(".card__title");
+  //EXERCISE: Select the image element
+
+  /*we can just use object notation: the name of the object(data) . and the name of the property (name) */
+  cardNameEl.textContent = data.name;
+
+  return cardElement;
+}
+
+//EXERCISE: Assign values to the image src and alt
+function getCardElement(data) {
+  console.log(data);
+
+  // Clone the card template
+  const cardElement = cardTemplate.content
+    .querySelector(".card")
+    .cloneNode(true);
+
+  // Select the card title element
+  const cardNameEl = cardElement.querySelector(".card__title");
+
+  // Select the image element
+  const cardImageEl = cardElement.querySelector(".card__image");
+
+  // Assign values to the image src and alt attributes
+  cardImageEl.src = data.link; // Set the image source
+  cardImageEl.alt = data.name; // Set the alt text for accessibility
+
+  // Assign text content to the card title
+  cardNameEl.textContent = data.name;
+
+  return cardElement; // Return the populated card element
+}
+
 /*this will pop open the edit profile container when click the button */
 function openModal() {
   /*Last step to put name in form box*/
@@ -83,3 +132,11 @@ profileEditButton.addEventListener("click", openModal);
 editModalCloseBtn.addEventListener("click", closeModal);
 
 editFormElement.addEventListener("submit", handleEditFormSubmit);
+
+/*What this says: as long as "i < initialCards.length" you keep iterating*/
+/* "i++" after each iteration, increment i by 1 (add by 1) */
+for (let i = 0; i < initialCards.length; i++) {
+  const cardElement = getCardElement(initialCards[i]);
+  /* add to dom */
+  cardsList.prepend(cardElement); //prepend means put this before all other elements that are in the cardsList element
+}
