@@ -31,6 +31,7 @@
 
 .modal__close-btn {
   position: absolute;
+  border: none;
   /* 32 from the top and 50 in the right and we need to specify that because we pulled thi selement form the flow*/
   top: 32px;
   right: 50px;
@@ -39,6 +40,7 @@
   opacity: 40%;
   background: transparent url("../images/close.svg") center no-repeat;
   background-size: 35px 35px;
+  cursor: pointer;
 }
 
 .modal__title {
