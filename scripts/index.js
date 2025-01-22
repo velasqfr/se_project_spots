@@ -31,6 +31,7 @@ console.log(initialCards);
 
 /* This is the class you want to use to have the edit profile button respond */
 const profileEditButton = document.querySelector(".profile__edit-btn");
+const cardModalBtn = document.querySelector(".profile__add-btn");
 
 /*First step to put name in form box*/
 const profileName = document.querySelector(".profile__name");
@@ -47,6 +48,21 @@ const editModalNameInput = editModal.querySelector("#profile-name-input");
 /*2nd step to put description in form box*/
 const editModalDescriptionInput = editModal.querySelector(
   "#profile-description-input"
+);
+
+const cardModal = document.querySelector("#add-card-modal");
+const cardForm = cardModal.querySelector(".modal__form"); //step in selecting the form (first part to Task 3/7. Adding a card)
+const cardModalCloseBtn = cardModal.querySelector(".modal__close-btn");
+const cardNameInput = cardModal.querySelector("#add-card-name-input");
+const cardLinkInput = cardModal.querySelector("#add-card-link-input");
+
+//SELECTING THE MODAL - this will allow you open the card
+const previewModal = document.querySelector("#preview-modal");
+const previewModalImageEl = previewModal.querySelector(".modal__image");
+const previewModalCaptionEl = previewModal.querySelector(".modal__caption");
+//Closing out the card image by clicking x
+const previewModalDeleteBtn = previewModal.querySelector(
+  ".modal__close_type_preview"
 );
 
 /*DEALING WITH CARDS*/
@@ -78,23 +94,44 @@ function getCardElement(data) {
   /*Assign text content to the card title */
   cardNameEl.textContent = data.name;
 
+  // BASIC STEPS TO SET AN EVENTLISTENER ON SOMETHING:
+  // Step 1: select the element
+  const cardLikeBtn = cardElement.querySelector(".card__like-btn");
+
+  // Step 2: add the eventListener & Step 3: write code that hanfles the event
+  cardLikeBtn.addEventListener("click", () => {
+    cardLikeBtn.classList.toggle("card__like-button_liked"); //no need for a ""."before ard__like-button_liked because classList assumes you are talking about a class
+  });
+
+  //TODO: Select the delete button
+  //TODO - set the listener on delete button
+  //TODO - The handler should remove the card from the DOM
+  const cardDeleteBtn = cardElement.querySelector(".card__delete-btn");
+
+  cardDeleteBtn.addEventListener("click", () => {
+    cardElement.remove("card__image");
+  });
+
+  //POP OPEN THE CARD IMAGE (element was already selected earlier) so we are setting the listener now:
+  cardImageEl.addEventListener("click", () => {
+    openModal(previewModal);
+    previewModalImageEl.src = data.link;
+    previewModalImageEl.alt = data.link;
+
+    previewModalCaptionEl.textContent = data.name;
+  });
+
   return cardElement;
 }
 
 /*this will pop open the edit profile container when click the button */
-function openModal() {
-  /*Last step to put name in form box*/
-  editModalNameInput.value =
-    profileName.textContent; /*assigning the value to the text content*/
-
-  /*Last step to put description in form box*/
-  editModalDescriptionInput.value = profileDescription.textContent;
-  editModal.classList.add("modal_opened");
+function openModal(modal) {
+  modal.classList.add("modal_opened");
 }
 
 /*this will close the profile contatiner when clicking the x*/
-function closeModal() {
-  editModal.classList.remove("modal_opened");
+function closeModal(modal) {
+  modal.classList.remove("modal_opened");
 }
 
 /* We need to write a function fot the eventListener on the handleEdditFormSubmit to allow the submit behavior to work*/
@@ -106,15 +143,54 @@ function handleEditFormSubmit(evt) {
   /*now that we did it got profileName, let's do it for profileDescription*/
   profileDescription.textContent = editModalDescriptionInput.value;
   /*This code allows the editProfileContatiner to close once clicking submit*/
-  closeModal();
+  closeModal(editModal);
+}
+
+//Step 3 in creating the function for th ehandler in Task 3/7. Adding a card
+//evt is added to help prevent the default browsing behavior like the functon above
+function handleAddCardSubmit(evt) {
+  evt.preventDefault();
+
+  const inputValues = { name: cardNameInput.value, link: cardLinkInput.value };
+  const cardElement = getCardElement(inputValues);
+  cardsList.prepend(cardElement);
+  closeModal(cardModal);
 }
 
 /*function will describe what happens when the button is clicked */
-profileEditButton.addEventListener("click", openModal);
+profileEditButton.addEventListener("click", () => {
+  /*Last step to put name in form box*/
+  editModalNameInput.value =
+    profileName.textContent; /*assigning the value to the text content*/
 
-editModalCloseBtn.addEventListener("click", closeModal);
+  /*Last step to put description in form box*/
+  editModalDescriptionInput.value = profileDescription.textContent;
+  openModal(editModal);
+});
+
+editModalCloseBtn.addEventListener("click", (evt) => {
+  closeModal(editModal);
+});
+
+//Task 2/7. Form for adding a card
+
+cardModalBtn.addEventListener("click", () => {
+  openModal(cardModal);
+});
+
+cardModalCloseBtn.addEventListener("click", (evt) => {
+  closeModal(cardModal);
+});
+
+//Closing the image card when opened by click on x
+previewModalDeleteBtn.addEventListener("click", () => {
+  closeModal(previewModal);
+});
+
+//Task 3/7. Adding a card
 
 editFormElement.addEventListener("submit", handleEditFormSubmit);
+cardForm.addEventListener("submit", handleAddCardSubmit); //(2nd step - setting the listener to the cardForm)
 
 /*What this says: as long as "i < initialCards.length" you keep iterating*/
 /* "i++" after each iteration, increment i by 1 (add by 1) */
@@ -123,3 +199,13 @@ for (let i = 0; i < initialCards.length; i++) {
   /* add to dom */
   cardsList.prepend(cardElement); //prepend means put this before all other elements that are in the cardsList element
 }
+
+/* SPRINT 5: */
+
+/*First we will call the method & start with the name of the array we want to loop (initalCards)
+The the for loop accepts an arguement that needs to be a function or arrow function like used
+The first item arguement this arrow function accepts will be item of one of the cards stored in the array (initalCards)*/
+initialCards.forEach((item) => {
+  const cardElement = getCardElement(item); //Here you are getting the card element
+  cardsList.append(cardElement); //Here you are appending it to the DOM
+});
