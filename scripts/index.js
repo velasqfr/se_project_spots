@@ -62,7 +62,7 @@ const previewModalImageEl = previewModal.querySelector(".modal__image");
 const previewModalCaptionEl = previewModal.querySelector(".modal__caption");
 //Closing out the card image by clicking x
 const previewModalDeleteBtn = previewModal.querySelector(
-  ".modal__close_type_preview"
+  ".modal__close-btn_type_preview"
 );
 
 /*DEALING WITH CARDS*/
@@ -109,14 +109,14 @@ function getCardElement(data) {
   const cardDeleteBtn = cardElement.querySelector(".card__delete-btn");
 
   cardDeleteBtn.addEventListener("click", () => {
-    cardElement.remove("card__image");
+    cardElement.remove();
   });
 
   //POP OPEN THE CARD IMAGE (element was already selected earlier) so we are setting the listener now:
   cardImageEl.addEventListener("click", () => {
     openModal(previewModal);
     previewModalImageEl.src = data.link;
-    previewModalImageEl.alt = data.link;
+    previewModalImageEl.alt = data.name;
 
     previewModalCaptionEl.textContent = data.name;
   });
@@ -155,6 +155,7 @@ function handleAddCardSubmit(evt) {
   const cardElement = getCardElement(inputValues);
   cardsList.prepend(cardElement);
   closeModal(cardModal);
+  evt.target.reset();
 }
 
 /*function will describe what happens when the button is clicked */
@@ -194,11 +195,6 @@ cardForm.addEventListener("submit", handleAddCardSubmit); //(2nd step - setting 
 
 /*What this says: as long as "i < initialCards.length" you keep iterating*/
 /* "i++" after each iteration, increment i by 1 (add by 1) */
-for (let i = 0; i < initialCards.length; i++) {
-  const cardElement = getCardElement(initialCards[i]);
-  /* add to dom */
-  cardsList.prepend(cardElement); //prepend means put this before all other elements that are in the cardsList element
-}
 
 /* SPRINT 5: */
 
