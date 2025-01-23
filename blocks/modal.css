@@ -14,6 +14,7 @@
   visibility: hidden; /*the modal and all of its content will be hidden by default*/
   transition: visibility 0.3s, opacity 0.3s ease-in;
   font-family: Poppins, Arial, Helvetica, sans-serif;
+  opacity: 0;
 }
 
 .modal_opened {
@@ -23,19 +24,21 @@
 
 .modal__container {
   background: #fff;
-  padding: 32px 50px;
   max-width: 730px;
   position: relative;
-  width: 100%;
   box-sizing: border-box;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
+
+  padding: 36px 50px 32px;
+  width: 100%;
 }
 
 .modal__container_type_preview {
   padding: 0;
   background-color: transparent;
+  width: unset;
 }
 
 .modal__image {
@@ -50,17 +53,13 @@
 
 .modal__caption {
   font-family: Poppins, Arial, Helvetica, sans-serif;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 24px;
   color: #ffffff;
-  position: absolute;
+  left: 0;
+  top: calc(100% + 10px);
+  margin: 0;
   padding: 4px 8px 4px 8px;
   border-radius: 8px;
-  display: flex;
-  margin: auto 0;
   background-color: #212121;
-  bottom: -40px;
 }
 
 .modal__close-btn {
@@ -127,13 +126,15 @@
   .modal {
     padding: 0 10px;
   }
+
   .modal__container {
-    padding: 12px;
+    padding: 22px 12px 12px;
   }
 
   .modal__form {
     gap: 24px;
   }
+
   .modal__title {
     font-family: Poppins, Arial, Helvetica, sans-serif;
     font-size: 20px;
@@ -175,13 +176,6 @@
 
   .modal__submit-btn {
     width: 100%;
-    width: 276px;
-    height: 52px;
-    padding: 18px 32px 18px 32px;
-    gap: 8px;
-    border-radius: 8px;
-    opacity: 0px;
-    cursor: pointer;
   }
 
   .modal__submit-btn:hover {
@@ -201,19 +195,15 @@
   }
 
   .modal__image {
-    border-radius: 4px;
-    width: 288px;
-    max-height: 426.57px;
+    max-height: none;
+    max-width: none;
+    width: 100%;
   }
 
   .modal__caption {
     position: absolute;
-    left: -16px;
-    font-size: 16px;
     font-weight: 500;
     line-height: 19.2px;
     display: flex;
-    font-size: 20px;
-    margin: 10px 0 34px;
   }
 }
