@@ -76,6 +76,11 @@
   cursor: pointer;
 }
 
+.modal__close-btn:hover {
+  color: #212121;
+  opacity: 100%;
+}
+
 .modal__close-btn_type_preview {
   background-image: url("../images/close-light-btn.svg");
   top: 0;
@@ -109,12 +114,16 @@
   cursor: pointer;
 }
 
+.modal__input_type_error {
+  border: 1px solid rgba(255, 0, 0, 0.6);
+}
+
 .modal__error {
   display: block;
   color: #ff0000b2;
   font-weight: 500;
   font-size: 16px;
-  line-height: 17.6px;
+  line-height: 18px;
 }
 
 .modal__submit-btn {
@@ -130,7 +139,11 @@
   cursor: pointer;
 }
 
-.mmodal__submit-btn_disabled {
+.modal__submit-btn:hover {
+  opacity: 70%;
+}
+
+.modal__submit-btn_disabled {
   background-color: #212121;
   opacity: 50%;
 }

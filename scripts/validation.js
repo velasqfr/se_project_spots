@@ -32,7 +32,7 @@ const checkInputValidity = (formEl, inputElement, config) => {
   //If inputElement.validity.valid is true we call the hideInputError but,
   //If inputElement.validity.valid is false we need to apply styles to make our error message dissapear
   if (!inputElement.validity.valid) {
-    showInputEror(formEl, inputElement, inputElement.validationMessage);
+    showInputEror(formEl, inputElement, inputElement.validationMessage, config);
     //If the above is not true (if input text is valid), then the show error message dissapears
   } else {
     hideInputError(formEl, inputElement, config);
@@ -56,7 +56,7 @@ const toggleButtonState = (inputList, buttonElement, config) => {
     //add a modifier class to the buttonElement to make it grey
     //Don't forget the CSS
   } else {
-    buttonElement.classList.remove(config, inactiveButtonClass);
+    buttonElement.classList.remove(config.inactiveButtonClass);
     buttonElement.disabled = false;
   }
 };
@@ -83,7 +83,7 @@ const setEventListeners = (formEl, config) => {
   inputList.forEach((inputElement) => {
     inputElement.addEventListener("input", function () {
       checkInputValidity(formEl, inputElement, config);
-      toggleButtonState(inputList, buttonElement.config);
+      toggleButtonState(inputList, buttonElement, config);
     });
   });
 };
