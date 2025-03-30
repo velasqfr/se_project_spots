@@ -1,0 +1,133 @@
+.profile {
+  display: flex;
+  padding: 34px 0 20px; /*34px on top, 0 left and right, 20px on bottom*/
+  border-bottom: 1px rgba(33, 33, 33, 0.4) solid;
+  object-fit: cover; /* correctly displays image with any proportions per code designer*/
+}
+
+.profile__avatar {
+  height: 190px;
+  width: 190px;
+  margin-right: 20px;
+  border-radius: 8px; /* Adjust the value for the desired rounding */
+}
+
+.profile__column {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile__name {
+  margin: 0 0 12px;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1; /*Setting it to integers instead of 32px is better because we dont have to change it since 1 is qual to 100 and matches the font size */
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  max-width: 420px;
+}
+
+.profile__description {
+  margin: 0;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  max-width: 420px;
+}
+
+.profile__edit-btn {
+  display: flex;
+  margin-top: auto;
+  font-weight: 500;
+  background: transparent;
+  font-size: 16px;
+  line-height: 16px;
+  padding: 0;
+  border-style: none;
+  align-items: center;
+  color: #212121;
+  width: 107.34px;
+  height: 16px;
+  gap: 8px;
+  font-family: Poppins, Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.profile__edit-btn:hover {
+  opacity: 1;
+}
+
+.profile__add-btn {
+  margin-left: auto;
+  margin-top: auto;
+  background-color: #212121;
+  justify-content: center;
+  width: 149px;
+  height: 52px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  cursor: pointer;
+  gap: 8px;
+  color: #fcf5e5;
+  border: none;
+  border-radius: 8px;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+}
+
+.profile__add-btn:hover {
+  opacity: 0.8;
+}
+
+@media screen and (max-width: 680px) {
+  .profile {
+    flex-direction: column;
+    max-width: 288px;
+    /*to center in the text*/
+    align-items: center;
+    text-align: center;
+    padding-top: 20px;
+  }
+
+  .profile__avatar {
+    height: 80px;
+    width: 80px;
+    margin: 0 0 12px;
+  }
+
+  .profile__name {
+    font-size: 20px;
+    margin: 0 0 6px; /*Its currently at 12 px, we need the bmargin bottom to be at 6px */
+    max-width: 288px;
+  }
+
+  .profile__column {
+    margin: 0 0 20px;
+  }
+
+  .profile__description {
+    margin: 0 0 32px;
+    font-size: 16px;
+    max-width: 288px;
+  }
+
+  .profile__edit-btn {
+    align-self: center;
+  }
+
+  .profile__add-btn {
+    margin: 0;
+    width: 100%; /*Makes button bigger */
+  }
+}

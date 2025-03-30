@@ -1,0 +1,31 @@
+.cards {
+  padding-top: 20px; /*This will give the padding betwee the cards and is preffered becaus it is spaced inside the container in between the child elemeents and the eds of the parent*/
+  border-bottom: 1px solid #21212166; /* adds the bottom lining at the bottom of the webpage uderneath card image */
+  padding-bottom: 40px; /*adds padding to the lining added */
+}
+
+.cards__list {
+  list-style-type: none; /*To remove the dots */
+  /*Because it is a ul element, it should have 0 padding and 0 margin */
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 413px);
+  justify-content: center; /*easy to apply when inside a grid container*/
+  gap: 40px 20px; /*40 is the row-gap and 20 is the column-gap (if you reversed it, it woul dgive you two collumns instead of 3)*/
+}
+
+@media screen and (max-width: 627px) {
+  .cards {
+    padding-bottom: 20px;
+  }
+
+  .cards__list {
+    grid-template-columns: repeat(auto-fit, 288px);
+    row-gap: 20px;
+    padding: 0 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
