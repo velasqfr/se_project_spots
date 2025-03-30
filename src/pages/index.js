@@ -12,36 +12,69 @@ import {
   resetValidation,
 } from "../../scripts/validation.js";
 
+//Importing the API to get the cards
+import Api from "../utils/Api.js";
+
 /* it's an array so we need to use brackets */
 /* We need at least 6 propeobjectsrties and  these objects need properties of name and link */
-const initialCards = [
-  {
-    name: "Val Thorens",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/1-photo-by-moritz-feldmann-from-pexels.jpg",
-  },
-  {
-    name: "Restaurant terrace",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/2-photo-by-ceiline-from-pexels.jpg",
-  },
-  {
-    name: "An outdoor cafe",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/3-photo-by-tubanur-dogan-from-pexels.jpg",
-  },
-  {
-    name: "A very long bridge, over the forest and through the trees",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/4-photo-by-maurice-laschet-from-pexels.jpg",
-  },
-  {
-    name: "Tunnel with morning light",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/5-photo-by-van-anh-nguyen-from-pexels.jpg",
-  },
-  {
-    name: "Mountain house",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg",
-  },
-];
+// const initialCards = [
+//   {
+//     name: "Val Thorens",
+//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/1-photo-by-moritz-feldmann-from-pexels.jpg",
+//   },
+//   {
+//     name: "Restaurant terrace",
+//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/2-photo-by-ceiline-from-pexels.jpg",
+//   },
+//   {
+//     name: "An outdoor cafe",
+//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/3-photo-by-tubanur-dogan-from-pexels.jpg",
+//   },
+//   {
+//     name: "A very long bridge, over the forest and through the trees",
+//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/4-photo-by-maurice-laschet-from-pexels.jpg",
+//   },
+//   {
+//     name: "Tunnel with morning light",
+//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/5-photo-by-van-anh-nguyen-from-pexels.jpg",
+//   },
+//   {
+//     name: "Mountain house",
+//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg",
+//   },
+// ];
 
-console.log(initialCards);
+///////////Instantiating API.JS code per Project -9 Brief//////////
+const api = new Api({
+  baseURL: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "afff5bf3-ed81-4f6d-9851-50932f76d0ba",
+    "Content-Type": "application/json",
+  },
+});
+
+//Desctructure the second item in the callback of the .then()
+api
+  .getAppInfo()
+  .then(([cards, userInfo]) => {
+    //Fetch the users info from the server
+    cards.forEach((item) => {
+      const cardElement = getCardElement(item); //Here you are getting the card element
+      cardsList.append(cardElement); //Here you are appending it to the DOM
+    });
+    //Handle the user's information
+    //set the src of the avatar image
+    //set the text content of both the text elements
+    const profileAvatar = document.querySelector(".profile__avatar");
+    profileAvatar.src = userInfo.avatar;
+    const profileName = document.querySelector(".profile__name");
+    profileName.textContent = userInfo.name;
+    const profileDescription = document.querySelector(".profile__description");
+    profileDescription.textContent = userInfo.about;
+  })
+  .catch((err) => console.log("Error fetching user info:", err));
+
+// console.log(initialCards);
 
 /* This is the class you want to use to have the edit profile button respond */
 const profileEditButton = document.querySelector(".profile__edit-btn");
@@ -159,12 +192,23 @@ function closeModal(modal) {
 /* Anytime you pass a function to the evenListener, the even object is passed as the first arguement*/
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
-  /*earlier we set the value to the text content, now we're assigning text.content to the value*/
-  profileName.textContent = editModalNameInput.value;
-  /*now that we did it got profileName, let's do it for profileDescription*/
-  profileDescription.textContent = editModalDescriptionInput.value;
-  /*This code allows the editProfileContatiner to close once clicking submit*/
-  closeModal(editModal);
+  api
+    .editUserInfo({
+      name: editModalNameInput.value,
+      about: editModalDescriptionInput.value,
+    })
+    .then((data) => {
+      //TODO: Use data argument instead of the input values
+      /*earlier we set the value to the text content, now we're assigning text.content to the value*/
+      profileName.textContent = data.name;
+      /*now that we did it got profileName, let's do it for profileDescription*/
+      profileDescription.textContent = data.about;
+      /*This code allows the editProfileContatiner to close once clicking submit*/
+      closeModal(editModal);
+    })
+    .catch((err) => {
+      console.error("Error updating user info", err);
+    });
 }
 
 // added in project 6: To close with Esc key
@@ -186,12 +230,22 @@ function handleOverLayClose(evt) {
 function handleAddCardSubmit(evt) {
   evt.preventDefault();
 
-  const inputValues = { name: cardNameInput.value, link: cardLinkInput.value };
-  const cardElement = getCardElement(inputValues);
-  cardsList.prepend(cardElement);
-  closeModal(cardModal);
-  evt.target.reset();
-  disableButton(cardSubmitBtn, settings);
+  api
+    .addCard({
+      name: cardNameInput.value,
+      link: cardLinkInput.value,
+    })
+    .then((data) => {
+      const cardElement = getCardElement(data);
+      cardsList.prepend(cardElement);
+      closeModal(cardModal);
+
+      cardForm.reset();
+      disableButton(cardSubmitBtn, settings);
+    })
+    .catch((err) => {
+      console.error("Error adding new card:", err);
+    });
 }
 
 /*function will describe what happens when the button is clicked */
@@ -242,10 +296,10 @@ cardForm.addEventListener("submit", handleAddCardSubmit); //(2nd step - setting 
 /*First we will call the method & start with the name of the array we want to loop (initalCards)
 The the for loop accepts an arguement that needs to be a function or arrow function like used
 The first item arguement this arrow function accepts will be item of one of the cards stored in the array (initalCards)*/
-initialCards.forEach((item) => {
-  const cardElement = getCardElement(item); //Here you are getting the card element
-  cardsList.append(cardElement); //Here you are appending it to the DOM
-});
+// initialCards.forEach((item) => {
+//   const cardElement = getCardElement(item); //Here you are getting the card element
+//   cardsList.append(cardElement); //Here you are appending it to the DOM
+// });
 
 //Caling enableValidation
 enableValidation(settings);

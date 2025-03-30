@@ -20,12 +20,21 @@
       </header>
       <main class="content">
         <section class="profile page__section">
-          <!--Page__section was added to apply the margin: 0auto and max-width 1280px to each element, rather than applying it to each css block (ex. card section)-->
-          <img
-            src="<%=require('./images/avatar.jpg')%>"
-            alt="Bessie Coleman"
-            class="profile__avatar"
-          />
+          <div class="profile__avatar-container">
+            <button class="profile__avatar-btn">
+              <img
+                src="<%=require('./images/pencil-light.png')%>"
+                alt="Pencil icon"
+                class="profile__pencil-btn"
+              />
+            </button>
+            <!--Page__section was added to apply the margin: 0auto and max-width 1280px to each element, rather than applying it to each css block (ex. card section)-->
+            <img
+              src="<%=require('./images/avatar.jpg')%>"
+              alt="Bessie Coleman"
+              class="profile__avatar"
+            />
+          </div>
           <div class="profile__column">
             <h1 class="profile__name">Bessie Coleman</h1>
             <p class="profile__description">Civil Aviator</p>
