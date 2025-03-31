@@ -71,6 +71,22 @@ class Api {
       })
       .catch((err) => console.log("Error adding cards:", err));
   }
+
+  editAvatarInfo(avatar) {
+    return fetch(`${this._baseURL}/users/me/avatar`, {
+      method: "PATCH",
+      headers: this._headers,
+      // Send the data in the body as a JSON string.
+      body: JSON.stringify({
+        avatar: avatar,
+      }), // handle the response
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Error: ${res.status})`);
+    });
+  }
 }
 
 // export the class

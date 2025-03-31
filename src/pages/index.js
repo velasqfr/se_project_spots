@@ -258,6 +258,19 @@ function handleAddCardSubmit(evt) {
     });
 }
 
+function handleAvatarSubmit(evt) {
+  evt.preventDefault();
+
+  api
+    .editAvatarInfo(avatarNameInput.value)
+    .then((data) => {
+      profileName.textContent = editModalNameInput.value;
+      profileDescription.textContent = editModalDescriptionInput.value;
+      closeModal(editModal);
+    })
+    .catch(console.error);
+}
+
 /*function will describe what happens when the button is clicked */
 profileEditButton.addEventListener("click", () => {
   /*Last step to put name in form box*/
@@ -295,6 +308,8 @@ avatarModalBtn.addEventListener("click", () => {
 avatarModalCloseBtn.addEventListener("click", () => {
   closeModal(avatarModal);
 });
+
+avatarForm.addEventListener("submit", handleAvatarSubmit); //(2nd step - setting the listener to the cardForm)
 
 //Closing the image card when opened by click on x
 previewModalDeleteBtn.addEventListener("click", () => {
