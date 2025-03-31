@@ -80,6 +80,8 @@ api
 const profileEditButton = document.querySelector(".profile__edit-btn");
 const cardModalBtn = document.querySelector(".profile__add-btn");
 
+const avatarModalBtn = document.querySelector(".profile__avatar-btn");
+
 /*First step to put name in form box*/
 const profileName = document.querySelector(".profile__name");
 /*First step to put description in form box*/
@@ -97,12 +99,20 @@ const editModalDescriptionInput = editModal.querySelector(
   "#profile-description-input"
 );
 
+//CARD FORM ELEMENT
 const cardModal = document.querySelector("#add-card-modal");
 const cardForm = cardModal.querySelector(".modal__form"); //step in selecting the form (first part to Task 3/7. Adding a card)
 const cardSubmitBtn = cardModal.querySelector(".modal__submit-btn");
 const cardModalCloseBtn = cardModal.querySelector(".modal__close-btn");
 const cardNameInput = cardModal.querySelector("#add-card-name-input");
 const cardLinkInput = cardModal.querySelector("#add-card-link-input");
+
+//AVATAR FORM ELEMENT
+const avatarModal = document.querySelector("#avatar-modal");
+const avatarForm = avatarModal.querySelector(".modal__form"); //step in selecting the form (first part to Task 3/7. Adding a card)
+const avatarSubmitBtn = avatarModal.querySelector(".modal__submit-btn");
+const avatarModalCloseBtn = avatarModal.querySelector(".modal__close-btn");
+const avatarNameInput = avatarModal.querySelector("#profile-avatar-input");
 
 //SELECTING THE MODAL - this will allow you open the card
 const previewModal = document.querySelector("#preview-modal");
@@ -276,6 +286,14 @@ cardModalBtn.addEventListener("click", () => {
 
 cardModalCloseBtn.addEventListener("click", (evt) => {
   closeModal(cardModal);
+});
+
+avatarModalBtn.addEventListener("click", () => {
+  openModal(avatarModal);
+});
+
+avatarModalCloseBtn.addEventListener("click", () => {
+  closeModal(avatarModal);
 });
 
 //Closing the image card when opened by click on x

@@ -25,7 +25,7 @@
               <img
                 src="<%=require('./images/pencil-light.png')%>"
                 alt="Pencil icon"
-                class="profile__pencil-btn"
+                class="profile__pencil-icon"
               />
             </button>
             <!--Page__section was added to apply the margin: 0auto and max-width 1280px to each element, rather than applying it to each css block (ex. card section)-->
@@ -169,6 +169,31 @@
         ></button>
         <img class="modal__image" src="" alt="" />
         <p class="modal__caption">Val Thorens</p>
+      </div>
+    </div>
+
+    <div class="modal" id="edit-profile-modal">
+      <div class="modal__container">
+        <button type="button" class="modal__close-btn"></button>
+        <!--close button was added-->
+        <h2 class="modal__title">Edit Avatar</h2>
+        <form name="edit-avatar" class="modal__form" novalidate>
+          <label for="profile-avatar-input" class="modal__label">
+            <!--Every label that is associted with an attribute should have a "for" attribute and it should alway match the ID of the input-->
+            Avatar
+            <input
+              id="profile-avatar-input"
+              type="text"
+              class="modal__input"
+              placeholder="avatar goes here"
+            />
+            <span id="profile-avatar-input-error" class="modal__error"></span>
+            <!--the corresponding input needs to have an "id" value with the same input-->
+          </label>
+          <button type="submit" class="modal__submit-btn">Save</button>
+
+          <!--add close button now-->
+        </form>
       </div>
     </div>
     <!--PrOJECT 9 SETUP-->
