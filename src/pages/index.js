@@ -14,6 +14,7 @@ import {
 
 //Importing the API to get the cards
 import Api from "../utils/Api.js";
+//import { setButtonText } from "../utils/helpers.js";
 
 /* it's an array so we need to use brackets */
 /* We need at least 6 propeobjectsrties and  these objects need properties of name and link */
@@ -53,6 +54,11 @@ const api = new Api({
   },
 });
 
+//PROFILE FORM ELEMENTS
+const profileAvatar = document.querySelector(".profile__avatar");
+const profileName = document.querySelector(".profile__name");
+const profileDescription = document.querySelector(".profile__description");
+
 //Desctructure the second item in the callback of the .then()
 api
   .getAppInfo()
@@ -65,11 +71,8 @@ api
     //Handle the user's information
     //set the src of the avatar image
     //set the text content of both the text elements
-    const profileAvatar = document.querySelector(".profile__avatar");
     profileAvatar.src = userInfo.avatar;
-    const profileName = document.querySelector(".profile__name");
     profileName.textContent = userInfo.name;
-    const profileDescription = document.querySelector(".profile__description");
     profileDescription.textContent = userInfo.about;
   })
   .catch((err) => console.log("Error fetching user info:", err));
@@ -79,18 +82,10 @@ api
 /* This is the class you want to use to have the edit profile button respond */
 const profileEditButton = document.querySelector(".profile__edit-btn");
 const cardModalBtn = document.querySelector(".profile__add-btn");
-
 const avatarModalBtn = document.querySelector(".profile__avatar-btn");
 
-/*First step to put name in form box*/
-const profileName = document.querySelector(".profile__name");
-/*First step to put description in form box*/
-const profileDescription = document.querySelector(".profile__description");
-
 const editModal = document.querySelector("#edit-profile-modal");
-
 const editFormElement = editModal.querySelector(".modal__form");
-
 const editModalCloseBtn = editModal.querySelector(".modal__close-btn");
 /*2nd step to put name in form box*/
 const editModalNameInput = editModal.querySelector("#profile-name-input");
@@ -108,11 +103,17 @@ const cardNameInput = cardModal.querySelector("#add-card-name-input");
 const cardLinkInput = cardModal.querySelector("#add-card-link-input");
 
 //AVATAR FORM ELEMENT
-const avatarModal = document.querySelector("#avatar-modal");
+const avatarModal = document.querySelector("#edit-avatar-modal");
 const avatarForm = avatarModal.querySelector(".modal__form"); //step in selecting the form (first part to Task 3/7. Adding a card)
 const avatarSubmitBtn = avatarModal.querySelector(".modal__submit-btn");
 const avatarModalCloseBtn = avatarModal.querySelector(".modal__close-btn");
-const avatarNameInput = avatarModal.querySelector("#profile-avatar-input");
+const avatarLinkInput = avatarModal.querySelector("#profile-avatar-input");
+
+//DELETE/CANCEL FORM ELEMENT
+const deleteModal = document.querySelector("#delete-modal");
+const deleteForm = deleteModal.querySelector(".modal__form");
+const deleteCancel = deleteModal.querySelector(".modal__cancel-btn");
+const deleteClose = deleteModal.querySelector(".modal__close-btn");
 
 //SELECTING THE MODAL - this will allow you open the card
 const previewModal = document.querySelector("#preview-modal");
@@ -122,10 +123,12 @@ const previewModalCaptionEl = previewModal.querySelector(".modal__caption");
 const previewModalDeleteBtn = previewModal.querySelector(
   ".modal__close-btn_type_preview"
 );
-
+const previewModalClose = previewModal.querySelector(".modal__close-btn");
 /*DEALING WITH CARDS*/
 const cardTemplate = document.querySelector("#card-template");
 const cardsList = document.querySelector(".cards__list");
+
+let selectedCard, selectedCardId;
 
 /*We need to clone the card template, grab the element from inside it, and then insert the necesary date (src, alt)*/
 /*If it's going to need to insert that stuff, it's going to need to recieve that as an arguement(labeled "data" below)*/
@@ -141,24 +144,22 @@ function getCardElement(data) {
 
   /* Select the card title element */
   const cardNameEl = cardElement.querySelector(".card__title");
-
   /* Select the image element */
   const cardImageEl = cardElement.querySelector(".card__image");
-
-  /* Assign values to the image src and alt attributes */
-  cardImageEl.src = data.link; // Set the image source
-  cardImageEl.alt = data.name; // Set the alt text for accessibility
-
-  /*Assign text content to the card title */
-  cardNameEl.textContent = data.name;
-
   // BASIC STEPS TO SET AN EVENTLISTENER ON SOMETHING:
   // Step 1: select the element
   const cardLikeBtn = cardElement.querySelector(".card__like-btn");
 
-  // Step 2: add the eventListener & Step 3: write code that hanfles the event
-  cardLikeBtn.addEventListener("click", () => {
-    cardLikeBtn.classList.toggle("card__like-button_liked"); //no need for a ""."before ard__like-button_liked because classList assumes you are talking about a class
+  /*Assign text content to the card title */
+  cardNameEl.textContent = data.name;
+  /* Assign values to the image src and alt attributes */
+  cardImageEl.src = data.link; // Set the image source
+  cardImageEl.alt = data.name; // Set the alt text for accessibility
+
+  //the callback function that you pass to an event handler always recieve the event(evt) object as it's first arguement and then we can pass it on through our name handler function
+  cardLikeBtn.addEventListener("click", (evt) => {
+    //REMOVED: cardLikeBtn.classList.toggle("card__like-button_liked"); //no need for a ""."before ard__like-button_liked because classList assumes you are talking about a class
+    handleLike(evt, data._id);
   });
 
   //TODO: Select the delete button
@@ -166,8 +167,9 @@ function getCardElement(data) {
   //TODO - The handler should remove the card from the DOM
   const cardDeleteBtn = cardElement.querySelector(".card__delete-btn");
 
+  //allows us to call the delete card handler and pass it the data it's going to need (cardElement) and the data
   cardDeleteBtn.addEventListener("click", () => {
-    cardElement.remove();
+    handleDeleteCard(cardElement, data._id);
   });
 
   //POP OPEN THE CARD IMAGE (element was already selected earlier) so we are setting the listener now:
@@ -202,6 +204,10 @@ function closeModal(modal) {
 /* Anytime you pass a function to the evenListener, the even object is passed as the first arguement*/
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
+
+  const submitBtn = evt.submitter;
+  setButtonText(submitBtn, true);
+
   api
     .editUserInfo({
       name: editModalNameInput.value,
@@ -217,7 +223,52 @@ function handleEditFormSubmit(evt) {
       closeModal(editModal);
     })
     .catch((err) => {
-      console.error("Error updating user info", err);
+      console.error("Error updating user info", err).finally(() => {
+        setButtonText(submitBtn, false);
+      });
+    });
+}
+
+//6. Delete a card - Submission Button
+function handleDeleteSubmit(evt) {
+  evt.preventDefault();
+  const submitBtn = evt.submitter;
+  api
+    .deleteCard(selectedCardId) //HAVE TO PASS THE ID(OTHERWISE WILL GET 404)
+    .then(() => {
+      //TODO: remove the card & close the modal
+      selectedCard.remove();
+      closeModal(deleteModal);
+    })
+    .catch(console.error)
+    .finally(() => {
+      setButtonText(submitBtn, false, "Delete", "Deleting...");
+    });
+}
+
+//6. Deleting a card
+function handleDeleteCard(cardElement, cardId) {
+  //assigning values to these variables & opening the deletion modal
+  selectedCard = cardElement;
+  selectedCardId = cardId;
+  openModal(deleteModal);
+}
+
+//7. ADDING & REMOVING LIKES:
+function handleLike(evt) {
+  const isLiked = evt.target.classList.toggle(".card__like-button_liked");
+  //1. Check whether card is currently liked or not (EXAMPLE: const  -???; )
+  //2. Call the changeLike method, passing it the appropriate arguements
+  //3. Handle the response (.then and .catch)
+  //4. In the .then, toggle active class (so that the change is visible in the DOM)
+
+  api
+    .changeLike(ids, !isLiked)
+    .then(() => {
+      evt.target.classList.toggle("card__like-button_liked");
+    })
+    .catch((err) => {
+      console.error("Error:", err);
     });
 }
 
@@ -240,33 +291,41 @@ function handleOverLayClose(evt) {
 function handleAddCardSubmit(evt) {
   evt.preventDefault();
 
+  const inputValues = { name: cardNameInput.value, link: cardLinkInput.value };
+  const submitBtn = evt.submitter;
+  setButtonText(submitBtn, false, "Saving...");
+
   api
-    .addCard({
-      name: cardNameInput.value,
-      link: cardLinkInput.value,
-    })
-    .then((data) => {
-      const cardElement = getCardElement(data);
+    .addCard(inputValues)
+    .then((newCard) => {
+      const cardElement = getCardElement(newCard);
       cardsList.prepend(cardElement);
       closeModal(cardModal);
 
       cardForm.reset();
-      disableButton(cardSubmitBtn, settings);
+      disableButton(cardSubmitBtn, true);
     })
     .catch((err) => {
       console.error("Error adding new card:", err);
+    })
+    .finally(() => {
+      setButtonText(submitBtn, true, "Save");
     });
 }
 
 function handleAvatarSubmit(evt) {
   evt.preventDefault();
 
+  const submitBtn = evt.submitter;
+  setButtonText(submitBtn, true);
+
   api
-    .editAvatarInfo(avatarNameInput.value)
+    .editAvatarInfo(avatarLinkInput.value) //Send avatar URL to API
     .then((data) => {
+      //TODO - Use data argument instead of the input values
       profileName.textContent = editModalNameInput.value;
       profileDescription.textContent = editModalDescriptionInput.value;
-      closeModal(editModal);
+      closeModal(editModal); //Closes the modal after
     })
     .catch(console.error);
 }
@@ -310,6 +369,9 @@ avatarModalCloseBtn.addEventListener("click", () => {
 });
 
 avatarForm.addEventListener("submit", handleAvatarSubmit); //(2nd step - setting the listener to the cardForm)
+
+///Adding listener for the handle submission delete button
+deleteForm.addEventListener("submit", handleDeleteSubmit);
 
 //Closing the image card when opened by click on x
 previewModalDeleteBtn.addEventListener("click", () => {

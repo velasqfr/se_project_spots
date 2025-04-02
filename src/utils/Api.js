@@ -1,4 +1,4 @@
-// import { link } from "fs";
+//import { link } from "fs";
 
 class Api {
   constructor({ baseURL, headers }) {
@@ -28,12 +28,33 @@ class Api {
     return fetch(`${this._baseURL}/cards`, {
       headers: this._headers,
     }).then((res) => {
+      console.log("Fetching cards, response status:", res.status);
       if (res.ok) {
         return res.json();
       }
-      Promise.reject(`Error: ${res.status})`);
+      return Promise.reject(`Error: ${res.status}`);
     });
   }
+
+  //8. Updating the profile picture
+  editAvatarInfo(avatar) {
+    return fetch(`${this._baseURL}/users/me/avatar`, {
+      method: "PATCH",
+      headers: this._headers,
+      // Send the data in the body as a JSON string.
+      body: JSON.stringify({
+        avatar,
+      }), // handle the response
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Error: ${res.status}`);
+      })
+      .catch((err) => console.log("Error updating avatar:", err));
+  }
+
   //3. Editing the profile text content
   editUserInfo({ name, about }) {
     return fetch(`${this._baseURL}/users/me`, {
@@ -49,7 +70,7 @@ class Api {
         if (res.ok) {
           return res.json();
         }
-        Promise.reject(`Error: ${res.status})`);
+        return Promise.reject(`Error: ${res.status}`);
       })
       .catch((err) => console.log("Error updating user info:", err));
   }
@@ -67,26 +88,73 @@ class Api {
         if (res.ok) {
           return res.json();
         }
-        Promise.reject(`Error: ${res.status}`);
+        return Promise.reject(`Error: ${res.status}`);
       })
       .catch((err) => console.log("Error adding cards:", err));
   }
 
-  editAvatarInfo(avatar) {
-    return fetch(`${this._baseURL}/users/me/avatar`, {
-      method: "PATCH",
+  deleteCard(id) {
+    return fetch(`${this._baseURL}/cards/${id}`, {
+      method: "DELETE",
       headers: this._headers,
-      // Send the data in the body as a JSON string.
-      body: JSON.stringify({
-        avatar: avatar,
-      }), // handle the response
     }).then((res) => {
       if (res.ok) {
         return res.json();
       }
-      return Promise.reject(`Error: ${res.status})`);
+      return Promise.reject(`Error: ${res.status}`);
     });
   }
+
+  addLike(id) {
+    return fetch(`${this._baseURL}/cards/${id}/likes`, {
+      method: "PUT",
+      headers: this._headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Error: ${res.status}`);
+    });
+  }
+
+  ///Paramarization - took the addLike method and removeLike method (seen below) and made it into ONE code changeLike
+  changeLike(id, isLiked) {
+    return fetch(`${this._baseURL}/cards/${id}/likes`, {
+      method: isLiked ? "DELETE" : "PUT",
+      headers: this._headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Error: ${res.status}`);
+    });
+  }
+
+  //addLike Method
+  /* addLike(id) {
+  return fetch(`${this._baseURL}/cards/${id}/likes`, {
+    method: "PUT",
+    headers: this._headers,
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Error: ${res.status}`);
+  });
+} */
+
+  //removeLike Method
+  /* removeLike(id) {
+  return fetch(`${this._baseURL}/cards/${id}/likes`, {
+    method: "DELETE",
+    headers: this._headers,
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Error: ${res.status}`);
+  });
+} */
 }
 
 // export the class
