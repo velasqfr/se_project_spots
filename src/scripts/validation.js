@@ -67,7 +67,7 @@ const toggleButtonState = (inputList, buttonElement, config) => {
 };
 
 //remove the disabled class
-const disableButton = (buttonElement, config) => {
+export const disableButton = (buttonElement, config) => {
   buttonElement.disabled = true;
   buttonElement.classList.add(config.inactiveButtonClass);
 };

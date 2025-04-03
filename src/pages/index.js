@@ -10,11 +10,14 @@ import {
   enableValidation,
   settings,
   resetValidation,
-} from "../../scripts/validation.js";
+  disableButton,
+} from "../scripts/validation.js";
 
 //Importing the API to get the cards
 import Api from "../utils/Api.js";
-//import { setButtonText } from "../utils/helpers.js";
+
+//Importing setButtonText from helpers.js
+import { setButtonText } from "../utils/helpers.js";
 
 /* it's an array so we need to use brackets */
 /* We need at least 6 propeobjectsrties and  these objects need properties of name and link */
@@ -71,13 +74,13 @@ api
     //Handle the user's information
     //set the src of the avatar image
     //set the text content of both the text elements
-    profileAvatar.src = userInfo.avatar;
     profileName.textContent = userInfo.name;
     profileDescription.textContent = userInfo.about;
+    profileAvatar.src = userInfo.avatar;
   })
   .catch((err) => console.log("Error fetching user info:", err));
 
-// console.log(initialCards);
+//console.log(initialCards);
 
 /* This is the class you want to use to have the edit profile button respond */
 const profileEditButton = document.querySelector(".profile__edit-btn");
@@ -108,6 +111,8 @@ const avatarForm = avatarModal.querySelector(".modal__form"); //step in selectin
 const avatarSubmitBtn = avatarModal.querySelector(".modal__submit-btn");
 const avatarModalCloseBtn = avatarModal.querySelector(".modal__close-btn");
 const avatarLinkInput = avatarModal.querySelector("#profile-avatar-input");
+
+const imageAvatar = document.querySelector(".profile__avatar"); // Select the avatar image element
 
 //DELETE/CANCEL FORM ELEMENT
 const deleteModal = document.querySelector("#delete-modal");
@@ -204,8 +209,11 @@ function closeModal(modal) {
 /* Anytime you pass a function to the evenListener, the even object is passed as the first arguement*/
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
-
+  //Change text content to "Saving..."
+  //evt.submitter will target the submit button that corresponds to the form that was just submitted
   const submitBtn = evt.submitter;
+  submitBtn.textContent = "Saving...";
+  //setButtonText(submitBtn, true);
   setButtonText(submitBtn, true);
 
   api
@@ -223,9 +231,12 @@ function handleEditFormSubmit(evt) {
       closeModal(editModal);
     })
     .catch((err) => {
-      console.error("Error updating user info", err).finally(() => {
-        setButtonText(submitBtn, false);
-      });
+      console.error("Error updating user info", err);
+    })
+    //Change text content back to "save"
+    //finally will run after all API requests (whether failure or success)
+    .finally(() => {
+      setButtonText(submitBtn, false);
     });
 }
 
@@ -242,7 +253,7 @@ function handleDeleteSubmit(evt) {
     })
     .catch(console.error)
     .finally(() => {
-      setButtonText(submitBtn, false, "Delete", "Deleting...");
+      //setButtonText(submitBtn, false, "Delete", "Deleting...");
     });
 }
 
@@ -255,15 +266,15 @@ function handleDeleteCard(cardElement, cardId) {
 }
 
 //7. ADDING & REMOVING LIKES:
-function handleLike(evt) {
-  const isLiked = evt.target.classList.toggle(".card__like-button_liked");
+function handleLike(evt, cardId) {
   //1. Check whether card is currently liked or not (EXAMPLE: const  -???; )
+  const isLiked = evt.target.classList.contains("card__like-button_liked");
   //2. Call the changeLike method, passing it the appropriate arguements
   //3. Handle the response (.then and .catch)
   //4. In the .then, toggle active class (so that the change is visible in the DOM)
 
   api
-    .changeLike(ids, !isLiked)
+    .changeLike(cardId, !isLiked)
     .then(() => {
       evt.target.classList.toggle("card__like-button_liked");
     })
@@ -293,7 +304,7 @@ function handleAddCardSubmit(evt) {
 
   const inputValues = { name: cardNameInput.value, link: cardLinkInput.value };
   const submitBtn = evt.submitter;
-  setButtonText(submitBtn, false, "Saving...");
+  setButtonText(submitBtn, true);
 
   api
     .addCard(inputValues)
@@ -309,7 +320,7 @@ function handleAddCardSubmit(evt) {
       console.error("Error adding new card:", err);
     })
     .finally(() => {
-      setButtonText(submitBtn, true, "Save");
+      setButtonText(submitBtn, true, "Save", "Saving...");
     });
 }
 
@@ -323,11 +334,17 @@ function handleAvatarSubmit(evt) {
     .editAvatarInfo(avatarLinkInput.value) //Send avatar URL to API
     .then((data) => {
       //TODO - Use data argument instead of the input values
-      profileName.textContent = editModalNameInput.value;
-      profileDescription.textContent = editModalDescriptionInput.value;
+      profileName.textContent = data.name; //what awas editModalNameInput.value;
+      profileDescription.textContent = data.about; //what was editModalDescriptionInput.value;
+      profileAvatar.src = data.avatar;
       closeModal(editModal); //Closes the modal after
     })
-    .catch(console.error);
+    .catch((err) => {
+      console.error("Error adding new avatar:", err);
+    })
+    .finally(() => {
+      setButtonText(submitBtn, false);
+    });
 }
 
 /*function will describe what happens when the button is clicked */
@@ -365,6 +382,10 @@ avatarModalBtn.addEventListener("click", () => {
 });
 
 avatarModalCloseBtn.addEventListener("click", () => {
+  closeModal(avatarModal);
+});
+
+avatarSubmitBtn.addEventListener("click", () => {
   closeModal(avatarModal);
 });
 

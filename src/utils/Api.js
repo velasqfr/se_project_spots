@@ -20,7 +20,6 @@ class Api {
       headers: this._headers,
     })
       .then((res) => res.json())
-      .then((data) => data)
       .catch((err) => console.log("Error fetching user info:", err));
   }
 
@@ -50,6 +49,8 @@ class Api {
         if (res.ok) {
           return res.json();
         }
+        console.log(avatar);
+
         return Promise.reject(`Error: ${res.status}`);
       })
       .catch((err) => console.log("Error updating avatar:", err));
@@ -96,18 +97,6 @@ class Api {
   deleteCard(id) {
     return fetch(`${this._baseURL}/cards/${id}`, {
       method: "DELETE",
-      headers: this._headers,
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Error: ${res.status}`);
-    });
-  }
-
-  addLike(id) {
-    return fetch(`${this._baseURL}/cards/${id}/likes`, {
-      method: "PUT",
       headers: this._headers,
     }).then((res) => {
       if (res.ok) {
