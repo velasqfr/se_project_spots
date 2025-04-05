@@ -139,13 +139,40 @@
   cursor: pointer;
 }
 
+button.modal__submit-btn.modal__delete-btn {
+  background-color: #ff6565;
+}
+
+.modal__input_type_error {
+  border: 1px solid rgba(255, 0, 0, 0.6);
+}
+
 .modal__submit-btn:hover {
   opacity: 70%;
 }
 
 .modal__submit-btn_disabled {
   background-color: #212121;
-  opacity: 50%;
+}
+
+.modal__close-icon {
+  width: 22.63px;
+  top: 28.49px;
+  left: 12.49px;
+  transform: rotate(45deg);
+  border-width: 2px;
+}
+
+.modal__cancel-btn {
+  width: 156;
+  height: 52;
+  padding-top: 18px;
+  padding-right: 32px;
+  padding-bottom: 18px;
+  padding-left: 32px;
+  gap: 8px;
+  border-radius: 8px;
+  border-width: 1px;
 }
 
 @media screen and (max-width: 627px) {
@@ -202,6 +229,10 @@
 
   .modal__submit-btn {
     width: 100%;
+  }
+
+  button.modal__submit-btn.modal__delete-btn {
+    background-color: #ff6565;
   }
 
   .modal__submit-btn:hover {

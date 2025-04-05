@@ -66,6 +66,7 @@ const profileDescription = document.querySelector(".profile__description");
 api
   .getAppInfo()
   .then(([cards, userInfo]) => {
+    console.log(cards);
     //Fetch the users info from the server
     cards.forEach((item) => {
       const cardElement = getCardElement(item); //Here you are getting the card element
@@ -97,9 +98,10 @@ const editModalDescriptionInput = editModal.querySelector(
   "#profile-description-input"
 );
 
-//CARD FORM ELEMENT
+//CARD FORM ELEMENT         ------ "#add-card-modal" → Selects an element with id="add-card-modal"
+//                          ------ ".modal__form" → Selects elements with class="modal__form"
 const cardModal = document.querySelector("#add-card-modal");
-const cardForm = cardModal.querySelector(".modal__form"); //step in selecting the form (first part to Task 3/7. Adding a card)
+const cardForm = cardModal.querySelector(".modal__form");
 const cardSubmitBtn = cardModal.querySelector(".modal__submit-btn");
 const cardModalCloseBtn = cardModal.querySelector(".modal__close-btn");
 const cardNameInput = cardModal.querySelector("#add-card-name-input");
@@ -107,7 +109,7 @@ const cardLinkInput = cardModal.querySelector("#add-card-link-input");
 
 //AVATAR FORM ELEMENT
 const avatarModal = document.querySelector("#edit-avatar-modal");
-const avatarForm = avatarModal.querySelector(".modal__form"); //step in selecting the form (first part to Task 3/7. Adding a card)
+const avatarForm = avatarModal.querySelector(".modal__form");
 const avatarSubmitBtn = avatarModal.querySelector(".modal__submit-btn");
 const avatarModalCloseBtn = avatarModal.querySelector(".modal__close-btn");
 const avatarLinkInput = avatarModal.querySelector("#profile-avatar-input");
@@ -154,6 +156,11 @@ function getCardElement(data) {
   // BASIC STEPS TO SET AN EVENTLISTENER ON SOMETHING:
   // Step 1: select the element
   const cardLikeBtn = cardElement.querySelector(".card__like-btn");
+
+  //KEEPS THE LIKE BUTTON ON AFTER REFRESHING MY PAGE
+  if (data.isLiked) {
+    cardLikeBtn.classList.add("card__like-button_liked");
+  }
 
   /*Assign text content to the card title */
   cardNameEl.textContent = data.name;
@@ -233,7 +240,7 @@ function handleEditFormSubmit(evt) {
     .catch((err) => {
       console.error("Error updating user info", err);
     })
-    //Change text content back to "save"
+    //CHANGE TEXT CONTENT BACK TO "SAVE"
     //finally will run after all API requests (whether failure or success)
     .finally(() => {
       setButtonText(submitBtn, false);
@@ -245,7 +252,7 @@ function handleDeleteSubmit(evt) {
   evt.preventDefault();
   const submitBtn = evt.submitter;
   api
-    .deleteCard(selectedCardId) //HAVE TO PASS THE ID(OTHERWISE WILL GET 404)
+    .deleteCard(selectedCardId) //HAVE TO PASS THE ID(OTHERWISE WILL GET 404
     .then(() => {
       //TODO: remove the card & close the modal
       selectedCard.remove();
@@ -274,7 +281,7 @@ function handleLike(evt, cardId) {
   //4. In the .then, toggle active class (so that the change is visible in the DOM)
 
   api
-    .changeLike(cardId, !isLiked)
+    .changeLike(cardId, isLiked)
     .then(() => {
       evt.target.classList.toggle("card__like-button_liked");
     })
@@ -393,6 +400,14 @@ avatarForm.addEventListener("submit", handleAvatarSubmit); //(2nd step - setting
 
 ///Adding listener for the handle submission delete button
 deleteForm.addEventListener("submit", handleDeleteSubmit);
+
+deleteCancel.addEventListener("click", () => {
+  closeModal(deleteModal);
+});
+
+deleteClose.addEventListener("click", () => {
+  closeModal(deleteModal);
+});
 
 //Closing the image card when opened by click on x
 previewModalDeleteBtn.addEventListener("click", () => {

@@ -15,6 +15,9 @@ class Api {
   //1. Loading user information from the server
   //Method to get user information -  other methods for working with the API, like getuserInfo (different baseURL)
   getUserInfo() {
+    const url = `${this._baseURL}/users/me`;
+    console.log("Fetching user info from:", url);
+
     return fetch(`${this._baseURL}/users/me`, {
       method: "GET",
       headers: this._headers,
@@ -49,8 +52,6 @@ class Api {
         if (res.ok) {
           return res.json();
         }
-        console.log(avatar);
-
         return Promise.reject(`Error: ${res.status}`);
       })
       .catch((err) => console.log("Error updating avatar:", err));
