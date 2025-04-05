@@ -173,6 +173,7 @@ button.modal__submit-btn.modal__delete-btn {
   gap: 8px;
   border-radius: 8px;
   border-width: 1px;
+  border: 2px solid #212121;
 }
 
 @media screen and (max-width: 627px) {
@@ -245,7 +246,6 @@ button.modal__submit-btn.modal__delete-btn {
     gap: 10px;
     border-radius: 8px;
     border: 1px 0px 0px 0px;
-    opacity: 0px;
     font-size: 16px;
     font-weight: 500;
     line-height: 1;
