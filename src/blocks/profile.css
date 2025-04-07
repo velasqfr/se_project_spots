@@ -109,6 +109,10 @@
   opacity: 0.8;
 }
 
+.profile__pencil-icon {
+  color: #212121;
+}
+
 @media screen and (max-width: 680px) {
   .profile {
     flex-direction: column;

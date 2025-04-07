@@ -335,7 +335,7 @@
     position: absolute; /* Ensure it's positioned absolutely */
     top: -60px; /* Move it up (adjust value as necessary, -16px is roughly 1 inch) */
     right: 12px;
-    color: white;
+    background-color: white;
     visibility: visible;
   }
 }
