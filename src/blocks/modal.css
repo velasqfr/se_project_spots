@@ -223,7 +223,7 @@
   }
 
   .modal__close-btn_type_preview {
-    top: -45px;
+    top: -46px;
   }
 
   .modal__label {
@@ -305,7 +305,7 @@
 
   .modal__delete_title {
     font-family: Poppins, Arial, Helvetica, sans-serif;
-    width: 276px;
+    width: 250px;
     height: 48px;
     line-height: 120%;
     font-weight: 500;
@@ -315,13 +315,11 @@
   }
 
   .modal__delete_container {
-    width: 300px;
-    height: 208px;
-    top: 214px;
-    left: 10px;
+    width: 275px;
+    top: 200px;
     gap: 20px;
     border-radius: 8px;
-    padding: 12px;
+    padding: 8px;
   }
 
   .modal__delete_form {
@@ -329,5 +327,15 @@
     height: 116px;
     gap: 12px;
     flex-direction: column;
+    margin: 0 auto;
+  }
+
+  .modal__close_delete {
+    margin-top: 10px;
+    position: absolute; /* Ensure it's positioned absolutely */
+    top: -60px; /* Move it up (adjust value as necessary, -16px is roughly 1 inch) */
+    right: 12px;
+    color: white;
+    visibility: visible;
   }
 }
