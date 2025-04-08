@@ -331,11 +331,10 @@
   }
 
   .modal__close_delete {
+    background: transparent url("../images/WhiteCloseBtn.svg") center no-repeat;
     margin-top: 10px;
     position: absolute; /* Ensure it's positioned absolutely */
     top: -60px; /* Move it up (adjust value as necessary, -16px is roughly 1 inch) */
-    right: 12px;
-    background-color: white;
-    visibility: visible;
+    right: -10px;
   }
 }
