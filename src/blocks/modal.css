@@ -88,6 +88,13 @@
   opacity: 1;
 }
 
+.modal__close_delete {
+  background: transparent url("../images/WhiteCloseBtn.svg") center no-repeat;
+  opacity: 100%;
+  right: -40px;
+  top: 10px;
+}
+
 .modal__title {
   font-family: Poppins;
   font-weight: 500;
@@ -156,6 +163,7 @@
   background-color: #212121;
 }
 
+/* ?? */
 .modal__close-icon {
   width: 22.63px;
   top: 28.49px;
@@ -331,10 +339,9 @@
   }
 
   .modal__close_delete {
-    background: transparent url("../images/WhiteCloseBtn.svg") center no-repeat;
     margin-top: 10px;
-    position: absolute; /* Ensure it's positioned absolutely */
-    top: -60px; /* Move it up (adjust value as necessary, -16px is roughly 1 inch) */
+    position: absolute;
+    top: -60px;
     right: -10px;
   }
 }
