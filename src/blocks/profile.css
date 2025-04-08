@@ -123,24 +123,21 @@
     padding-top: 20px;
   }
 
-  /*TODO: set content of ::after element to " */
-  /*TODO: finish mobile avatar styling " */
-
   .profile__avatar {
     height: 80px;
     width: 80px;
     margin: 0 0 12px;
     object-fit: cover;
-    transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transition on hover */
+    transition: transform 0.3s ease, opacity 0.3s ease;
   }
 
   .profile__avatar:hover {
-    opacity: 0.9; /* Slightly decrease opacity on hover */
+    opacity: 0.9;
   }
 
   .profile__name {
     font-size: 20px;
-    margin: 0 0 6px; /*Its currently at 12 px, we need the bmargin bottom to be at 6px */
+    margin: 0 0 6px;
     max-width: 288px;
   }
 
