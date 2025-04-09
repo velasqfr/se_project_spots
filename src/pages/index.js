@@ -209,7 +209,7 @@ function handleEditFormSubmit(evt) {
       closeModal(editModal);
     })
     .catch((err) => {
-      console.error("Error updating user info", err);
+      console.error("Error using user info", err);
     })
     //CHANGE TEXT CONTENT BACK TO "SAVE"
     //finally will run after all API requests (whether failure or success)
@@ -233,7 +233,7 @@ function handleDeleteSubmit(evt) {
     })
     .catch(console.error)
     .finally(() => {
-      submitBtn.textContent = "Delete";
+      submitBtn.textContent = "Delete"; //Resets the button back to "Delete"
     });
 }
 
@@ -350,11 +350,12 @@ editModalCloseBtn.addEventListener("click", (evt) => {
 //Task 2/7. Form for adding a card
 
 cardModalBtn.addEventListener("click", () => {
-  cardForm.reset();
-  const inputlist = Array.from(
-    cardForm.querySelectorAll(settings.inputSelector)
-  );
-  resetValidation(cardForm, inputlist, settings); //disables the button if fields are empty
+  //DELETED PER CODE REVIEWER:
+  // cardForm.reset();
+  // const inputlist = Array.from(
+  //   cardForm.querySelectorAll(settings.inputSelector)
+  // );
+  // resetValidation(cardForm, inputlist, settings); //disables the button if fields are empty
   openModal(cardModal);
 });
 
