@@ -291,13 +291,13 @@ function handleAddCardSubmit(evt) {
       closeModal(cardModal);
 
       cardForm.reset();
-      disableButton(cardSubmitBtn, true);
+      disableButton(cardSubmitBtn, settings);
     })
     .catch((err) => {
       console.error("Error adding new card:", err);
     })
     .finally(() => {
-      setButtonText(submitBtn, true, "Save", "Saving...");
+      setButtonText(submitBtn, false); //In ".finally", you need to use false, to stop loading
     });
 }
 
@@ -314,7 +314,7 @@ function handleAvatarSubmit(evt) {
       profileName.textContent = data.name; //what awas editModalNameInput.value;
       profileDescription.textContent = data.about; //what was editModalDescriptionInput.value;
       profileAvatar.src = data.avatar;
-      closeModal(editModal); //Closes the modal after
+      closeModal(avatarModal); //Closes the modal after
     })
     .catch((err) => {
       console.error("Error adding new avatar:", err);
@@ -364,10 +364,6 @@ avatarModalBtn.addEventListener("click", () => {
 });
 
 avatarModalCloseBtn.addEventListener("click", () => {
-  closeModal(avatarModal);
-});
-
-avatarSubmitBtn.addEventListener("click", () => {
   closeModal(avatarModal);
 });
 
