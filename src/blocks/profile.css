@@ -164,6 +164,6 @@
   }
 
   .profile__pencil-icon {
-    display: none;
+    display: block;
   }
 }

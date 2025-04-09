@@ -222,6 +222,8 @@ function handleEditFormSubmit(evt) {
 function handleDeleteSubmit(evt) {
   evt.preventDefault();
   const submitBtn = evt.submitter;
+  //Per code reviewer: changing button text to "Deleting..." after API request to delete
+  submitBtn.textContent = "Deleting...";
   api
     .deleteCard(selectedCardId) //HAVE TO PASS THE ID(OTHERWISE WILL GET 404
     .then(() => {
@@ -229,10 +231,7 @@ function handleDeleteSubmit(evt) {
       selectedCard.remove();
       closeModal(deleteModal);
     })
-    .catch(console.error)
-    .finally(() => {
-      //setButtonText(submitBtn, false, "Delete", "Deleting...");
-    });
+    .catch(console.error);
 }
 
 //6. Deleting a card
@@ -348,6 +347,11 @@ editModalCloseBtn.addEventListener("click", (evt) => {
 //Task 2/7. Form for adding a card
 
 cardModalBtn.addEventListener("click", () => {
+  cardForm.reset();
+  const inputlist = Array.from(
+    cardForm.querySelectorAll(settings.inputSelector)
+  );
+  resetValidation(cardForm, inputlist, settings); //disables the button if fields are empty
   openModal(cardModal);
 });
 

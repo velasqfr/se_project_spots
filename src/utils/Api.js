@@ -7,6 +7,13 @@ class Api {
     this._headers = headers;
   }
 
+  _checkResponse(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Error: ${res.status}`);
+  }
+
   getAppInfo() {
     //call getUserInfo it in this array
     return Promise.all([this.getInitialCards(), this.getUserInfo()]);
@@ -21,21 +28,13 @@ class Api {
     return fetch(`${this._baseURL}/users/me`, {
       method: "GET",
       headers: this._headers,
-    })
-      .then((res) => res.json())
-      .catch((err) => console.log("Error fetching user info:", err));
+    }).then(this._checkResponse);
   }
 
   getInitialCards() {
     return fetch(`${this._baseURL}/cards`, {
       headers: this._headers,
-    }).then((res) => {
-      console.log("Fetching cards, response status:", res.status);
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Error: ${res.status}`);
-    });
+    }).then(this._checkResponse);
   }
 
   //8. Updating the profile picture
@@ -47,14 +46,7 @@ class Api {
       body: JSON.stringify({
         avatar,
       }), // handle the response
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Error: ${res.status}`);
-      })
-      .catch((err) => console.log("Error updating avatar:", err));
+    }).then(this._checkResponse);
   }
 
   //3. Editing the profile text content
@@ -67,14 +59,7 @@ class Api {
         name,
         about,
       }), // handle the response
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Error: ${res.status}`);
-      })
-      .catch((err) => console.log("Error updating user info:", err));
+    }).then(this._checkResponse);
   }
 
   addCard({ name, link }) {
@@ -85,26 +70,14 @@ class Api {
         name: name,
         link: link,
       }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Error: ${res.status}`);
-      })
-      .catch((err) => console.log("Error adding cards:", err));
+    }).then(this._checkResponse);
   }
 
   deleteCard(id) {
     return fetch(`${this._baseURL}/cards/${id}`, {
       method: "DELETE",
       headers: this._headers,
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Error: ${res.status}`);
-    });
+    }).then(this._checkResponse);
   }
 
   ///Paramarization - took the addLike method and removeLike method (seen below) and made it into ONE code changeLike
@@ -112,12 +85,7 @@ class Api {
     return fetch(`${this._baseURL}/cards/${id}/likes`, {
       method: isLiked ? "DELETE" : "PUT",
       headers: this._headers,
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Error: ${res.status}`);
-    });
+    }).then(this._checkResponse);
   }
 
   //addLike Method
