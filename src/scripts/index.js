@@ -104,8 +104,9 @@ function getCardElement(data) {
   const cardLikeBtn = cardElement.querySelector(".card__like-btn");
 
   // Step 2: add the eventListener & Step 3: write code that hanfles the event
-  cardLikeBtn.addEventListener("click", () => {
-    cardLikeBtn.classList.toggle("card__like-button_liked"); //no need for a ""."before ard__like-button_liked because classList assumes you are talking about a class
+  cardLikeBtn.addEventListener("click", (evt) => {
+    //cardLikeBtn.classList.toggle("card__like-button_liked"); //no need for a ""."before ard__like-button_liked because classList assumes you are talking about a class
+    handleLike(evt, data._id);
   });
 
   //TODO: Select the delete button

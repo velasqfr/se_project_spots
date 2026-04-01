@@ -67,16 +67,20 @@ const toggleButtonState = (inputList, buttonElement, config) => {
 };
 
 //remove the disabled class
-const disableButton = (buttonElement, config) => {
+export const disableButton = (buttonElement, config) => {
   buttonElement.disabled = true;
   buttonElement.classList.add(config.inactiveButtonClass);
 };
 
 //Exporting resetValidation into index.js per project 9
+//This ensures the button is disabled or enabled based on current input validity when resetting
 export const resetValidation = (formEl, inputList, config) => {
   inputList.forEach((input) => {
     hideInputError(formEl, input, config);
   });
+
+  const buttonElement = formEl.querySelector(config.submitButtonSelector);
+  toggleButtonState(inputList, buttonElement, config);
 };
 
 const setEventListeners = (formEl, config) => {

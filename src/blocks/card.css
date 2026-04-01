@@ -57,9 +57,9 @@
   height: 32px;
   top: 10px;
   right: 10px;
-  opacity: 0px;
   border: none;
   position: absolute;
+  visibility: visible;
 }
 
 .card__delete-btn:hover {

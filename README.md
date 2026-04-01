@@ -1,37 +1,40 @@
-# Spots by Franklin Velasquez
+# Spots 🖼️ by Franklin Velasquez
 
-An interactive social media web application page for user's use and styling.
+An interactive social media web application where users can add, like, and remove photos.
+
+---
 
 ## Description
 
-Spots is an interactive social media application where users can come and interconnect with each other by adding or removing photos displayed in the page. The application is user friendly and designed for all platforms.
+Spots is an interactive social media application designed for all platforms. Users can interconnect by sharing images, interacting with content, and exploring a structured Figma-inspired layout. The app is **user-friendly, responsive, and visually appealing** across desktop, tablet, and mobile devices.
 
-## Function
+---
 
-- The application is designed to work seamlessly fast on desktops, tablets, and mobile devices.
+## Functionality
 
-- It creates an environnment of social interaction for all users.
+- Seamless performance across desktops, tablets, and mobile devices.
+- Provides a social interaction environment for users to engage with shared content.
+- Styled using web design principles and Figma layouts, showcasing trending or popular photos.
 
-- It is styled accordingly on web styled principles aiming to showcase popular, trending, or just likeable photos in a structured Figma layout.
+---
 
 ## Tech Stack
 
-- HTML (HyperText Markup Language), a beginner-friendly coding language used to structure web content through the use of semantic elements and tags.
+- **HTML (HyperText Markup Language):** Structures web content using semantic elements.
+- **CSS (Cascading Style Sheets):** Styles HTML elements with colors, fonts, spacing, and layout.
+- **CSS Grid:** Organizes content into rows and columns for responsive image layouts.
+- **Figma:** Cloud-based design tool for planning layouts and ensuring cross-device consistency.
 
-- CSS (Cascading Style Sheets), a stysheet language allowing us to style the HTML elements by defining colors, fonts, layouts, and spacing. CSS gives a more look, feel, and presentation to the layout of the webpage.
-
-- CSS Grid. CSS grid divides a container into grid areas with rows and columns where the child elements are placed into these grid areas. An example would be the images portrayed in the app.
-
-  - All images were compressed and sized accordingly & properly to fit the perfect view in different screen resolutions, while still witholding it's quality, with the help of Figma.
-
-- Figma, a cloud-based and crossed-platform, gave us a field of the structural layout needed to perform the webpage sucessfully in desktop and phone view.
+---
 
 ## Deployment
 
 The webpage is deployed on GitHub Pages:
 
-- [Deployment Link:](https://velasqfr.github.io/se_project_spots/)
+- [View Live](https://velasqfr.github.io/se_project_spots/)
 
-## Video Description
+---
 
-- [Google Drive Link:](https://drive.google.com/file/d/1PkfyPA1ooiDLcL7Ip7Gt1XXNkKW3MfOl/view?usp=drive_link)
+## Video Demo
+
+- [Google Drive Video Demo](https://drive.google.com/file/d/1PkfyPA1ooiDLcL7Ip7Gt1XXNkKW3MfOl/view?usp=drive_link)
